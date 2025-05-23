@@ -6428,6 +6428,7 @@ if (curSong.toLowerCase() == 'serialized') {
             case 2608:
                 FlxTween.tween(yeahh, {alpha: 1}, 2, {ease: FlxEase.sineOut});
         }
+}
 		super.stepHit();
 	}
 
