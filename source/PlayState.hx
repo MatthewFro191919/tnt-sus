@@ -6410,7 +6410,7 @@ if (curSong.toLowerCase() == 'serialized') {
                         case 7: 1068;
                         default: 0;
                     };
-                    FlxTween.tween(PlayState.strumLineNotes.members[i], {x: targetX}, 1, {ease: FlxEase.sineOut});
+                    FlxTween.tween(strumLineNotes.members[i], {x: targetX}, 1, {ease: FlxEase.sineOut});
                 }
 
             case 2040:
