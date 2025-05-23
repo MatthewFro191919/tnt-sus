@@ -386,7 +386,17 @@ class PlayState extends MusicBeatState
 	public static var p2WriteDone:Bool = true;
 
 	public static final useStreamPos:Bool = true;
+    
+	public var background:FlxSprite;
+        public var switchSprite:FlxSprite;
+        public var fans:FlxSprite;
 
+    public var squid:FlxSprite;
+    public var jads:FlxSprite;
+    public var parry:FlxSprite;
+    public var healthHit:FlxSprite;
+    public var healthHit2:FlxSprite;
+	
 	override public function create()
 	{
 		// instance = this;
@@ -1006,8 +1016,20 @@ class PlayState extends MusicBeatState
 
 				defaultCamZoom = 0.9;
 
-                                switchState(new O2Stage());
+        // Background
+        background = new FlxSprite(-1030, -90).loadGraphic(Paths.image("limegreen/O2Background"));
+        add(background);
 
+        // Switch
+        switchSprite = new FlxSprite(-885, 420).loadGraphic(Paths.image("limegreen/switch"));
+        add(switchSprite);
+
+        // Fans (animated)
+        fans = new FlxSprite(-596, 178);
+        fans.frames = Paths.getSparrowAtlas("limegreen/fansss");
+        fans.animation.addByPrefix("main", "fansss instance 1", 24, true);
+        fans.animation.play("main");
+        add(fans);
 			case 'serialized':
 				curStage = 'serialized';	
          
@@ -1020,7 +1042,48 @@ class PlayState extends MusicBeatState
          
          			defaultCamZoom = 0.9;
 
-                                switchState(new O2HotfixStage());
+background = new FlxSprite(-1030, -90).loadGraphic(Paths.image("limegreen/O2Background"));
+        add(background);
+
+        switchSprite = new FlxSprite(-885, 420).loadGraphic(Paths.image("limegreen/switch"));
+        add(switchSprite);
+
+        fans = new FlxSprite(-596, 178);
+        fans.frames = Paths.getSparrowAtlas("limegreen/fansss");
+        fans.animation.addByPrefix("main", "fansss instance 1", 24, true);
+        fans.animation.play("main");
+        add(fans);
+
+        parry = new FlxSprite(-640, 400);
+        parry.frames = Paths.getSparrowAtlas("taunt");
+        parry.animation.addByPrefix("checkthisout", "taunt instância", 24, false);
+        add(parry);
+        parry.visible = false;
+
+        squid = new FlxSprite(-1800, 700);
+        squid.frames = Paths.getSparrowAtlas("characters/SquidBoy84");
+        squid.animation.addByPrefix("squidbop", "idle", 24, true);
+        squid.animation.play("squidbop");
+        add(squid);
+
+        jads = new FlxSprite(-500, 550);
+        jads.frames = Paths.getSparrowAtlas("characters/LIME_GRTEEN");
+        jads.animation.addByPrefix("jadsbop", "Idle", 24, true);
+        jads.visible = false;
+        add(jads);
+
+        healthHit = new FlxSprite(0, 0).loadGraphic(Paths.image("ow"));
+        healthHit.scrollFactor.set(0, 0);
+        add(healthHit);
+        healthHit.visible = false;	
+	healthHit.y = healthBarBG.y + healthBarBG.height / 2 - (iconP2.height / 2);
+
+        healthHit2 = new FlxSprite(500, 10).loadGraphic(Paths.image("owdown"));
+        healthHit2.scrollFactor.set(0, 0);
+        add(healthHit2);
+        healthHit2.visible = false;
+	healthHit2.y = healthBarBG.y + healthBarBG.height / 2 - (iconP2.height / 2);
+
 
 			case 'o2':
 				curStage = 'o2';
@@ -6274,7 +6337,32 @@ class PlayState extends MusicBeatState
 				resyncVocals();
 			}
 		}
+if (curSong.toLowerCase() == 'inflorescence-hotfix') {
+switch (curStep) {        
+        case 113:
+            FlxTween.tween(squid, {x: -500}, 0.9, {ease: FlxEase.quadIn});
+            FlxTween.tween(squid, {y: 500}, 0.9, {ease: FlxEase.quadIn});
+        
+        case 124:
+            parry.visible = true;
+            parry.animation.play("checkthisout", true);
+            squid.visible = false;
+            jads.visible = true;
 
+            FlxTween.tween(jads, {x: 1500, y: 400}, 0.9, {ease: FlxEase.quadOut});
+
+            if (!Config.downscroll) {
+                healthHit2.visible = true;
+                FlxTween.tween(healthHit2, {x: 1500, y: 800}, 0.9, {ease: FlxEase.quadOut});
+            } else {
+                healthHit.visible = true;
+                FlxTween.tween(healthHit, {x: 1500, y: 400}, 0.9, {ease: FlxEase.quadOut});
+            }
+
+        case 131:
+            parry.visible = false;
+    }
+	}
 		super.stepHit();
 	}
 
